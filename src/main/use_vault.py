@@ -10,9 +10,13 @@ secret or read secrets.
 
 # Configure the Vault client
 client = hvac.Client(
-    url=f"{config.vault_service_name}:8200",
+    url=f"http://{config.vault_service_name}:8200",
     token=config.vault_token
     )
+
+# Check connection
+if client.is_authenticated():
+    print("Successfully authenticated with Vault.")
 
 # Write a secret to Vault
 data = {
