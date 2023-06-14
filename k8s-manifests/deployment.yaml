@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-app-deployment
+  namespace: vault-test
 spec:
   replicas: 1
   selector:
@@ -14,10 +15,10 @@ spec:
     spec:
       containers:
         - name: my-app-container
-          image: my-app-image:latest
+          image: xamma/python-vault:latest
           envFrom:
             - secretRef:
                 name: my-app-secrets
           env:
             - name: VAULT_SERVICE_NAME
-              value: "vault-service-name-value"
+              value: vault
