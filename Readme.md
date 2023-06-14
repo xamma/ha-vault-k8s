@@ -115,3 +115,13 @@ Run the ```pod.yaml``` specified in the /k8s-manifests folder and verify it wrot
 Make sure to create the namespace vault-test.  
 If it run successfully, there will be a new entry in your secret/ when visiting the WebUI.  
 You can also check the Container Logs.  
+
+### BONUS: Go-App
+I created the same App using GoLang, so you can see the differences.  
+You can find it in the folder /app.
+Be careful, the App uses the Path **/gosecret** now, so you have to update your ACL's and create a new secrets engine.  
+
+Initialize: ```go mod init example.com/govault```  
+Add needed packages to go.mod: ```go mod tidy```  
+Run the App: ```go run main.go config.go```  
+Build: ```go build```   
