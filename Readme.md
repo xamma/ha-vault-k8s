@@ -118,7 +118,8 @@ You can also check the Container Logs.
 
 ### BONUS: Go-App
 I created the same App using GoLang, so you can see the differences.  
-You can find it in the folder /app.
+You can find it in the folder /app.  
+The App is also already containerized and ready to use, find the image on my Dockerhub: ```xamma/go-vault:latest```.  
 Be careful, the App uses the Path **/gosecret** now, so you have to update your ACL's and create a new secrets engine.  
 
 Initialize: ```go mod init example.com/govault```  
