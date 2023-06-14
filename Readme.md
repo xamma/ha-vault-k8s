@@ -69,10 +69,11 @@ First, we have to create an ACL policy what the token can do:
 Log into the vault ui and create a new policy called **basic** with the following content  
 ```
 path "secret/*" {
-  capabilities = ["read", "create"]
+  capabilities = ["create", "read", "update", "delete", "list"]
 }
 ``` 
 This creates a policy that grants read and write access for all paths within the secret/ prefix.  
+Modify it according to your needs and paths.  
 
 ### Create Token
 Now we can create our client token with this policy attached.  
@@ -84,8 +85,9 @@ We can now use this token as ENV-Var in our App. Best way is to pass it as Kuber
 ## Use Vault in your K8s Apps
 You can use it with e.g. Python and the **hvac** module.  
 The client you need to create for this will be the service-name of the vault and port 8200.  
+Be careful to use the FQDN format SERVICENAME.NAMESPACE.svc.cluster.local since they are not in the same namespace, e.g. ```http://vault.vault-namespace.svc.cluster.local:8200``` is the needed URL so we specify our VAULT_SERVICE_NAME with ```vault.vault.svc.cluster.local```.
 
-I added an example App in the /src folder.  
+I added an example App in the /src folder which is also already containerized on **xamma/python-vault**.  
 Set the ENVs e.g
 ```
 $env:VAULT_TOKEN="dev-only-token"
@@ -102,3 +104,14 @@ To not store the secret in the manifest we need to create it via CLI.
 kubectl create secret generic my-app-secrets -n <NAMESPACE> \
   --from-literal=VAULT_TOKEN=<value>
 ```
+
+### Create Secrets Engine
+To use/create the secrets you must first enable a new Secrets Engine via the vault CLI / UI.  
+To do so, log into the UI with the root token, and click on  
+```Secrets > Enable new Engine > KV > specify path (in our case, the Path is "secret" and the name of secret is "userdata")> enable```.
+
+### Run the app
+Run the ```pod.yaml``` specified in the /k8s-manifests folder and verify it wrote/read your secret.  
+Make sure to create the namespace vault-test.  
+If it run successfully, there will be a new entry in your secret/ when visiting the WebUI.  
+You can also check the Container Logs.  

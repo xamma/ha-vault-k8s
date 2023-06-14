@@ -23,9 +23,9 @@ data = {
     'username': 'myuser',
     'password': 'mypassword'
 }
-# Path is the name of the secret
-client.secrets.kv.v2.create_or_update_secret(path='secret/path', secret=data)
+# Userdata is the name of the secret
+client.secrets.kv.v2.create_or_update_secret(path='secret/userdata', secret=data)
 
 # Read a secret from Vault
-secret = client.secrets.kv.v2.read_secret_version(path='secret/path')
+secret = client.secrets.kv.v2.read_secret_version(path='secret/userdata')
 print(secret['data'])
